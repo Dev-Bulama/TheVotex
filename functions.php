@@ -78,6 +78,8 @@ $thevotex_inc_files = array(
 	'/helpers.php',
 	'/setup.php',
 	'/post-types.php',
+	'/menus.php',
+	'/widgets.php',
 	'/enqueue.php',
 	'/security.php',
 	'/customizer.php',
