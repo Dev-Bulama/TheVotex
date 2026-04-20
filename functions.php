@@ -82,6 +82,8 @@ $thevotex_inc_files = array(
 	'/widgets.php',
 	'/enqueue.php',
 	'/security.php',
+	'/performance.php',
+	'/accessibility.php',
 	'/customizer.php',
 	'/woocommerce.php',
 	'/compatibility.php',
