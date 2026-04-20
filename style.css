@@ -1,0 +1,113 @@
+/*
+Theme Name:        THEvotex
+Theme URI:         https://thevotex.com
+Author:            Dev-Bulama
+Author URI:        https://github.com/Dev-Bulama
+Description:       Premium nightlife WordPress theme for THEvotex Calgary. Built for Elementor, WooCommerce-compatible, fully customizer-driven. Dark luxury aesthetic with gold accent system, custom cursor, hero slider, multi-step reservation form, and CPT architecture for Events, Artists, Packages, and Food Menu.
+Version:           1.0.0
+Requires at least: 6.3
+Tested up to:      6.7
+Requires PHP:      8.1
+License:           GNU General Public License v2 or later
+License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:       thevotex
+Tags:              nightlife, dark, luxury, events, reservation, elementor, woocommerce, custom-menu, custom-logo, featured-images, full-width-template, theme-options
+
+--- Colour System ---
+Primary Background : #020204
+Surface Dark       : #07070f
+Card Background    : #0b0b14
+Gold Primary       : #c9a84c
+Gold Light         : #f0d080
+Gold Dark          : #a87830
+Off-White          : #f0eee8
+Muted              : #7a7a8a
+*/
+
+/* =========================================================
+   BASE RESET — all layout and component styles live in
+   assets/css/theme.min.css (compiled from assets/src/scss/)
+   This file intentionally contains only the theme header
+   and CSS custom properties so the Customizer live-preview
+   can inject overrides at the :root level without a full
+   stylesheet reload.
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+:root {
+	/* Brand colours — overridable via Customizer */
+	--thevotex-black:         #020204;
+	--thevotex-dark:          #07070f;
+	--thevotex-card:          #0b0b14;
+	--thevotex-gold:          #c9a84c;
+	--thevotex-gold-lt:       #f0d080;
+	--thevotex-gold-dk:       #a87830;
+	--thevotex-white:         #f0eee8;
+	--thevotex-muted:         #7a7a8a;
+	--thevotex-border:        rgba( 201, 168, 76, 0.18 );
+	--thevotex-border-bright: rgba( 201, 168, 76, 0.45 );
+
+	/* Typography scale */
+	--thevotex-font-display: 'Bebas Neue', sans-serif;
+	--thevotex-font-serif:   'Cormorant Garamond', serif;
+	--thevotex-font-body:    'DM Sans', sans-serif;
+
+	/* Spacing */
+	--thevotex-section-pad:  110px;
+	--thevotex-section-pad-m: 64px;
+	--thevotex-max-width:    1400px;
+	--thevotex-gutter:       60px;
+	--thevotex-gutter-m:     20px;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin:           0;
+	background-color: var( --thevotex-black );
+	color:            var( --thevotex-white );
+	font-family:      var( --thevotex-font-body );
+	font-weight:      300;
+	overflow-x:       hidden;
+	cursor:           none;
+}
+
+/* Thin gold scrollbar */
+::-webkit-scrollbar       { width: 3px; }
+::-webkit-scrollbar-track { background: var( --thevotex-black ); }
+::-webkit-scrollbar-thumb { background: var( --thevotex-gold ); }
+
+/* Screen-reader only utility (accessibility) */
+.screen-reader-text {
+	clip:     rect( 1px, 1px, 1px, 1px );
+	height:   1px;
+	overflow: hidden;
+	position: absolute;
+	width:    1px;
+	word-wrap: normal;
+}
+
+.screen-reader-text:focus {
+	background-color: var( --thevotex-dark );
+	border-radius:    3px;
+	clip:             auto;
+	color:            var( --thevotex-gold );
+	display:          block;
+	font-size:        0.875rem;
+	font-weight:      500;
+	height:           auto;
+	left:             5px;
+	line-height:      normal;
+	padding:          15px 23px 14px;
+	text-decoration:  none;
+	top:              5px;
+	width:            auto;
+	z-index:          100000;
+}
