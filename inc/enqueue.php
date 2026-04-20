@@ -452,22 +452,28 @@ function thevotex_chatbot_script_tag( string $tag, string $handle ): string {
 function thevotex_build_customizer_css(): string {
 	/*
 	 * Map: Customizer setting key => CSS custom property name.
-	 * 'type' determines the sanitization applied before output.
-	 * Supported types: 'color', 'url', 'text'.
+	 *
+	 * 'type' drives sanitization:
+	 *   'color' → sanitize_hex_color()
+	 *   'px'    → absint() with 'px' unit appended
+	 *   'url'   → esc_url()
+	 *   'text'  → sanitize_text_field()
+	 *
+	 * 'default' is the baseline value — entries equal to default are
+	 * skipped so the :root block stays empty when nothing is customised.
 	 */
 	$overrides = array(
-		array(
-			'mod'      => 'thevotex_gold_override',
-			'property' => '--thevotex-gold',
-			'type'     => 'color',
-			'default'  => '',
-		),
-		array(
-			'mod'      => 'thevotex_black_override',
-			'property' => '--thevotex-black',
-			'type'     => 'color',
-			'default'  => '',
-		),
+		// ── Colors ──────────────────────────────────────────────────
+		array( 'mod' => 'thevotex_color_primary', 'property' => '--thevotex-gold',        'type' => 'color', 'default' => '#c9a84c' ),
+		array( 'mod' => 'thevotex_color_dark',    'property' => '--thevotex-black',        'type' => 'color', 'default' => '#020204' ),
+		array( 'mod' => 'thevotex_color_card',    'property' => '--thevotex-card',         'type' => 'color', 'default' => '#0b0b14' ),
+		array( 'mod' => 'thevotex_color_text',    'property' => '--thevotex-white',        'type' => 'color', 'default' => '#f0eee8' ),
+		array( 'mod' => 'thevotex_color_muted',   'property' => '--thevotex-muted',        'type' => 'color', 'default' => '#7a7a8a' ),
+		array( 'mod' => 'thevotex_footer_bg',     'property' => '--thevotex-footer-bg',    'type' => 'color', 'default' => ''        ),
+		// ── Typography ──────────────────────────────────────────────
+		array( 'mod' => 'thevotex_font_size_base', 'property' => '--thevotex-font-size-base', 'type' => 'px', 'default' => 16 ),
+		// ── Layout ──────────────────────────────────────────────────
+		array( 'mod' => 'thevotex_header_height', 'property' => '--thevotex-header-height', 'type' => 'px', 'default' => 80 ),
 	);
 
 	$declarations = array();
@@ -475,13 +481,18 @@ function thevotex_build_customizer_css(): string {
 	foreach ( $overrides as $override ) {
 		$value = get_theme_mod( $override['mod'], $override['default'] );
 
-		if ( empty( $value ) || $value === $override['default'] ) {
+		// Skip when the value is empty or unchanged from the design default.
+		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+		if ( '' === $value || $value == $override['default'] ) {
 			continue;
 		}
 
 		switch ( $override['type'] ) {
 			case 'color':
 				$safe = sanitize_hex_color( $value );
+				break;
+			case 'px':
+				$safe = absint( $value ) . 'px';
 				break;
 			case 'url':
 				$safe = esc_url( $value );

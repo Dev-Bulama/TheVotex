@@ -99,11 +99,40 @@ add_filter( 'login_errors', 'thevotex_obscure_login_errors' );
  * X-Content-Type-Options prevents MIME-sniffing.
  */
 function thevotex_security_headers(): void {
-	if ( ! is_admin() && ! headers_sent() ) {
-		header( 'X-Content-Type-Options: nosniff' );
-		header( 'X-Frame-Options: SAMEORIGIN' );
-		header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+	if ( is_admin() || headers_sent() ) {
+		return;
 	}
+
+	header( 'X-Content-Type-Options: nosniff' );
+	header( 'X-Frame-Options: SAMEORIGIN' );
+	header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+
+	/*
+	 * Permissions-Policy restricts access to browser features.
+	 * Geolocation and camera are not used by this theme. Microphone
+	 * and payment are left unset — WooCommerce may need payment.
+	 */
+	header( 'Permissions-Policy: geolocation=(), camera=(), microphone=()' );
+
+	/*
+	 * Content-Security-Policy — permissive base that can be tightened
+	 * per-deployment. The 'unsafe-inline' on style-src is required by
+	 * Elementor, WooCommerce inline notices, and wp_add_inline_style().
+	 * Remove it only after verifying no inline styles remain.
+	 */
+	$csp = implode( '; ', array(
+		"default-src 'self'",
+		"script-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+		"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com",
+		"font-src 'self' https://fonts.gstatic.com data:",
+		"img-src 'self' data: https:",
+		"connect-src 'self'",
+		"frame-ancestors 'self'",
+		"base-uri 'self'",
+		"form-action 'self'",
+	) );
+
+	header( 'Content-Security-Policy: ' . $csp );
 }
 add_action( 'send_headers', 'thevotex_security_headers' );
 

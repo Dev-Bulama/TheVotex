@@ -62,31 +62,37 @@ function thevotex_register_widget_areas(): void {
 		'after_title'   => '</h4>',
 	);
 
-	// ── Footer column ─────────────────────────────────────────────
-	// Rendered inside the footer's 4-column grid as the fifth column
-	// when a widget is placed. Intended for newsletter sign-ups or
-	// custom text blocks.
+	// ── Footer — Navigate column ──────────────────────────────────
 	register_sidebar( array_merge( $shared, array(
-		'id'          => 'footer-col',
-		'name'        => __( 'Footer Column', 'thevotex' ),
-		'description' => __( 'Widgets appear in the footer grid. Accepts one widget.', 'thevotex' ),
+		'id'          => 'thevotex_footer_1',
+		'name'        => __( 'Footer: Navigate', 'thevotex' ),
+		'description' => __( 'Navigation links column in the footer. Add a Navigation Menu widget.', 'thevotex' ),
+	) ) );
+
+	// ── Footer — Hours column ─────────────────────────────────────
+	register_sidebar( array_merge( $shared, array(
+		'id'          => 'thevotex_footer_2',
+		'name'        => __( 'Footer: Hours', 'thevotex' ),
+		'description' => __( 'Operating hours column in the footer. Add the THEvotex Hours widget.', 'thevotex' ),
+	) ) );
+
+	// ── Footer — Contact column ───────────────────────────────────
+	register_sidebar( array_merge( $shared, array(
+		'id'          => 'thevotex_footer_3',
+		'name'        => __( 'Footer: Contact', 'thevotex' ),
+		'description' => __( 'Contact info column in the footer. Add the THEvotex Contact widget.', 'thevotex' ),
 	) ) );
 
 	// ── Off-canvas / popup ────────────────────────────────────────
-	// Injected via get_sidebar('offcanvas') inside footer.php,
-	// immediately before </body>. Intended for GDPR banners, cookie
-	// notices, or newsletter popup plugins.
 	register_sidebar( array_merge( $shared, array(
-		'id'          => 'offcanvas',
+		'id'          => 'thevotex_offcanvas',
 		'name'        => __( 'Off-Canvas / Popup', 'thevotex' ),
 		'description' => __( 'Rendered before </body>. Use for GDPR / newsletter overlays.', 'thevotex' ),
 	) ) );
 
 	// ── Blog sidebar ─────────────────────────────────────────────
-	// Rendered via get_sidebar() on blog archive and single-post
-	// templates. Not used on any custom CPT templates.
 	register_sidebar( array_merge( $shared, array(
-		'id'          => 'blog-sidebar',
+		'id'          => 'thevotex_blog_sidebar',
 		'name'        => __( 'Blog Sidebar', 'thevotex' ),
 		'description' => __( 'Appears on blog archive and single post pages.', 'thevotex' ),
 	) ) );
