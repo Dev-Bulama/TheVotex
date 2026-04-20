@@ -260,61 +260,10 @@ function thevotex_setup(): void {
 	add_image_size( 'thevotex-thumb',    400,  400, true ); // Square thumbnail.
 	add_image_size( 'thevotex-og',      1200,  630, true ); // Open Graph social share.
 
-	// ── Navigation menus ──────────────────────────────────────────
-	register_nav_menus( array(
-		'primary'          => __( 'Primary Navigation', 'thevotex' ),
-		'mobile'           => __( 'Mobile Navigation', 'thevotex' ),
-		'footer-navigate'  => __( 'Footer — Navigate', 'thevotex' ),
-		'footer-legal'     => __( 'Footer — Legal', 'thevotex' ),
-	) );
+	// Navigation menus and widget areas are registered in their own
+	// dedicated /inc files: menus.php and widgets.php respectively.
 }
 add_action( 'after_setup_theme', 'thevotex_setup' );
-
-// ---------------------------------------------------------------------------
-// Widget areas (sidebars)
-// ---------------------------------------------------------------------------
-
-/**
- * Registers all widget areas used by the theme.
- *
- * The main site layout does not use traditional sidebars, but widget
- * areas are provided for the footer columns and any plugin that needs
- * a widgetised region (e.g. Elementor popups, GDPR banners).
- *
- * @since 1.0.0
- * @return void
- */
-function thevotex_register_widget_areas(): void {
-
-	$shared_args = array(
-		'before_widget' => '<div id="%1$s" class="thevotex-widget %2$s">',
-		'after_widget'  => '</div>',
-		'before_title'  => '<h4 class="thevotex-widget__title">',
-		'after_title'   => '</h4>',
-	);
-
-	// Footer column — displayed inside the footer's 4-column grid.
-	register_sidebar( array_merge( $shared_args, array(
-		'id'          => 'footer-col',
-		'name'        => __( 'Footer Column', 'thevotex' ),
-		'description' => __( 'Widgets placed here appear in the footer. The footer layout will accommodate up to one widget area.', 'thevotex' ),
-	) ) );
-
-	// Off-canvas / popup area — for GDPR, newsletter overlays, etc.
-	register_sidebar( array_merge( $shared_args, array(
-		'id'          => 'offcanvas',
-		'name'        => __( 'Off-Canvas / Popup', 'thevotex' ),
-		'description' => __( 'Widgets placed here are injected before </body>. Useful for GDPR banners or newsletter pop-ups.', 'thevotex' ),
-	) ) );
-
-	// Blog sidebar — only rendered on archive / single-post templates.
-	register_sidebar( array_merge( $shared_args, array(
-		'id'          => 'blog-sidebar',
-		'name'        => __( 'Blog Sidebar', 'thevotex' ),
-		'description' => __( 'Appears on blog archive and single post pages.', 'thevotex' ),
-	) ) );
-}
-add_action( 'widgets_init', 'thevotex_register_widget_areas' );
 
 // ---------------------------------------------------------------------------
 // Block patterns
