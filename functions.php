@@ -83,6 +83,8 @@ $thevotex_inc_files = array(
 	'/enqueue.php',
 	'/security.php',
 	'/customizer.php',
+	'/woocommerce.php',
+	'/compatibility.php',
 );
 
 foreach ( $thevotex_inc_files as $file ) {

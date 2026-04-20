@@ -251,21 +251,205 @@ function thevotex_customizer_register( WP_Customize_Manager $wp_customize ): voi
 		'section' => 'thevotex_footer',
 		'type'    => 'text',
 	) );
+
+	$wp_customize->add_setting( 'thevotex_footer_copyright', array(
+		'default'           => '',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport'         => 'postMessage',
+	) );
+	$wp_customize->add_control( 'thevotex_footer_copyright', array(
+		'label'       => __( 'Custom Copyright Text', 'thevotex' ),
+		'description' => __( 'Leave blank to auto-generate: © Year Site Name.', 'thevotex' ),
+		'section'     => 'thevotex_footer',
+		'type'        => 'text',
+	) );
+
+	$wp_customize->add_setting( 'thevotex_footer_bg', array(
+		'default'           => '',
+		'sanitize_callback' => 'sanitize_hex_color',
+		'transport'         => 'postMessage',
+	) );
+	$wp_customize->add_control( new WP_Customize_Color_Control(
+		$wp_customize,
+		'thevotex_footer_bg',
+		array(
+			'label'   => __( 'Footer Background Color', 'thevotex' ),
+			'section' => 'thevotex_footer',
+		)
+	) );
+
+	/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	   SECTION: Colors
+	   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+	$wp_customize->add_section( 'thevotex_colors', array(
+		'title'    => __( 'Colors', 'thevotex' ),
+		'panel'    => 'thevotex_options',
+		'priority' => 20,
+	) );
+
+	$thevotex_color_settings = array(
+		'thevotex_color_primary' => array(
+			'label'   => __( 'Primary — Gold', 'thevotex' ),
+			'default' => '#c9a84c',
+		),
+		'thevotex_color_dark'    => array(
+			'label'   => __( 'Dark Background', 'thevotex' ),
+			'default' => '#020204',
+		),
+		'thevotex_color_card'    => array(
+			'label'   => __( 'Card / Surface Background', 'thevotex' ),
+			'default' => '#0b0b14',
+		),
+		'thevotex_color_text'    => array(
+			'label'   => __( 'Body Text', 'thevotex' ),
+			'default' => '#f0eee8',
+		),
+		'thevotex_color_muted'   => array(
+			'label'   => __( 'Muted / Secondary Text', 'thevotex' ),
+			'default' => '#7a7a8a',
+		),
+	);
+
+	foreach ( $thevotex_color_settings as $id => $args ) {
+		$wp_customize->add_setting( $id, array(
+			'default'           => $args['default'],
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport'         => 'postMessage',
+		) );
+		$wp_customize->add_control( new WP_Customize_Color_Control(
+			$wp_customize,
+			$id,
+			array(
+				'label'   => $args['label'],
+				'section' => 'thevotex_colors',
+			)
+		) );
+	}
+
+	/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	   SECTION: Typography
+	   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+	$wp_customize->add_section( 'thevotex_typography', array(
+		'title'    => __( 'Typography', 'thevotex' ),
+		'panel'    => 'thevotex_options',
+		'priority' => 25,
+	) );
+
+	$wp_customize->add_setting( 'thevotex_font_heading', array(
+		'default'           => 'Bebas Neue',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport'         => 'postMessage',
+	) );
+	$wp_customize->add_control( 'thevotex_font_heading', array(
+		'label'   => __( 'Heading Font', 'thevotex' ),
+		'section' => 'thevotex_typography',
+		'type'    => 'select',
+		'choices' => array(
+			'Bebas Neue'         => 'Bebas Neue',
+			'Cormorant Garamond' => 'Cormorant Garamond',
+			'Playfair Display'   => 'Playfair Display',
+			'Montserrat'         => 'Montserrat',
+			'DM Sans'            => 'DM Sans',
+		),
+	) );
+
+	$wp_customize->add_setting( 'thevotex_font_body', array(
+		'default'           => 'DM Sans',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport'         => 'postMessage',
+	) );
+	$wp_customize->add_control( 'thevotex_font_body', array(
+		'label'   => __( 'Body Font', 'thevotex' ),
+		'section' => 'thevotex_typography',
+		'type'    => 'select',
+		'choices' => array(
+			'DM Sans'            => 'DM Sans',
+			'Cormorant Garamond' => 'Cormorant Garamond',
+			'Inter'              => 'Inter',
+			'Lato'               => 'Lato',
+			'Open Sans'          => 'Open Sans',
+		),
+	) );
+
+	$wp_customize->add_setting( 'thevotex_font_size_base', array(
+		'default'           => 16,
+		'sanitize_callback' => 'absint',
+		'transport'         => 'postMessage',
+	) );
+	$wp_customize->add_control( 'thevotex_font_size_base', array(
+		'label'       => __( 'Base Font Size (px)', 'thevotex' ),
+		'section'     => 'thevotex_typography',
+		'type'        => 'range',
+		'input_attrs' => array(
+			'min'  => 14,
+			'max'  => 20,
+			'step' => 1,
+		),
+	) );
+
+	/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	   SECTION: Header Layout
+	   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+	$wp_customize->add_section( 'thevotex_header_layout', array(
+		'title'    => __( 'Header Layout', 'thevotex' ),
+		'panel'    => 'thevotex_options',
+		'priority' => 30,
+	) );
+
+	$wp_customize->add_setting( 'thevotex_header_sticky', array(
+		'default'           => true,
+		'sanitize_callback' => 'rest_sanitize_boolean',
+		'transport'         => 'postMessage',
+	) );
+	$wp_customize->add_control( 'thevotex_header_sticky', array(
+		'label'   => __( 'Sticky header (fixed on scroll)', 'thevotex' ),
+		'section' => 'thevotex_header_layout',
+		'type'    => 'checkbox',
+	) );
+
+	$wp_customize->add_setting( 'thevotex_header_transparent', array(
+		'default'           => true,
+		'sanitize_callback' => 'rest_sanitize_boolean',
+		'transport'         => 'postMessage',
+	) );
+	$wp_customize->add_control( 'thevotex_header_transparent', array(
+		'label'       => __( 'Transparent header on front page', 'thevotex' ),
+		'description' => __( 'Header blends into the hero image on the homepage.', 'thevotex' ),
+		'section'     => 'thevotex_header_layout',
+		'type'        => 'checkbox',
+	) );
+
+	$wp_customize->add_setting( 'thevotex_header_height', array(
+		'default'           => 80,
+		'sanitize_callback' => 'absint',
+		'transport'         => 'postMessage',
+	) );
+	$wp_customize->add_control( 'thevotex_header_height', array(
+		'label'       => __( 'Header height (px)', 'thevotex' ),
+		'section'     => 'thevotex_header_layout',
+		'type'        => 'range',
+		'input_attrs' => array(
+			'min'  => 60,
+			'max'  => 140,
+			'step' => 4,
+		),
+	) );
 }
 add_action( 'customize_register', 'thevotex_customizer_register' );
 
 /**
- * Output inline CSS custom property overrides for Customizer
- * live-preview. This allows the Customizer postMessage transport
- * to update CSS tokens without a full page reload.
+ * Enqueues the live-preview JS inside the Customizer preview iframe.
+ *
+ * The script uses wp.customize() bindings so postMessage transport
+ * updates CSS tokens and DOM text instantly without a page reload.
  */
-function thevotex_customizer_live_preview_css(): void {
-	$gold = sanitize_hex_color( get_theme_mod( 'thevotex_gold_override', '' ) );
-
-	if ( empty( $gold ) ) {
-		return;
-	}
-
-	echo '<style id="thevotex-customizer-overrides">:root{--thevotex-gold:' . esc_attr( $gold ) . ';}</style>' . "\n";
+function thevotex_customizer_preview_enqueue(): void {
+	wp_enqueue_script(
+		'thevotex-customizer-preview',
+		THEVOTEX_ASSETS . '/js/customizer-preview.js',
+		array( 'customize-preview' ),
+		THEVOTEX_VERSION,
+		true
+	);
 }
-add_action( 'wp_head', 'thevotex_customizer_live_preview_css', 99 );
+add_action( 'customize_preview_init', 'thevotex_customizer_preview_enqueue' );
